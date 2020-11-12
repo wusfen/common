@@ -1,0 +1,55 @@
+// todo
+@font-face {
+  font-family: 'iconfont'; /* project id 1880602 */
+  src: url('//at.alicdn.com/t/font_1880602_juy0nmqbag.eot');
+  src: url('//at.alicdn.com/t/font_1880602_juy0nmqbag.eot?#iefix')
+      format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1880602_juy0nmqbag.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1880602_juy0nmqbag.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1880602_juy0nmqbag.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1880602_juy0nmqbag.svg#iconfont') format('svg');
+}
+
+[class^='i-'] {
+  background: center/contain no-repeat;
+  &:before {
+    content: '　';
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    line-height: 1;
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-family: iconfont, monospace;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+// 'x'.charCodeAt().toString(16)
+.i-back:before {
+  content: '<';
+}
+.i-left:before {
+  content: '<';
+}
+.i-right:before {
+  content: '>';
+}
+.i-plus:before {
+  content: '+';
+}
+.i-close:before {
+  // content: '✗';
+}
+.i-checked:before {
+  // content: '✓';
+}
+
+.i-close {
+  background-image: url(../icon/close.png);
+}
+.i-checked {
+  background-image: url(../icon/checked.png);
+}

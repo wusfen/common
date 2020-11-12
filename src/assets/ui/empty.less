@@ -1,0 +1,64 @@
+// 占位
+.t:empty:after{content: "-";}
+.t1:empty:after{content: "-";}
+.t2:empty:after{content: "-";}
+.t3:empty:after{content: "-";}
+.t4:empty:after{content: "-";}
+.text:empty:after{content: "-";}
+.h1:empty:after{content: "标题";}
+.h2:empty:after{content: "标题";}
+.h3:empty:after{content: "标题";}
+.h4:empty:after{content: "标题";}
+.title:empty:after{content: "标题";}
+.heading:empty:after{content: "标题";}
+.name:empty:after{content: "名称";}
+.username:empty:after{content: "用户名";}
+.nickname:empty:after{content: "昵称";}
+.password:empty:after{content: "********";}
+.phone:empty:after{content: "00000000000";}
+.phonenumber:empty:after{content: "00000000000";}
+.n:empty:after{content: "0";}
+.number:empty:after{content: "0";}
+.total:empty:after{content: "0";}
+.date:empty:after{content: "0000-00-00";}
+.month:empty:after{content: "0000-00";}
+.time:empty:after{content: "00:00";}
+.datetime:empty:after{content: "0000-00-00 00:00";}
+.addr:empty:after{content: "地址";}
+.address:empty:after{content: "地址";}
+.email:empty:after{content: "email@domain.com";}
+.url:empty:after{content: "http://";}
+.link:empty:after{content: "http://";}
+button:empty:after{content: "button";}
+.button:empty:after{content: "button";}
+[src=""],img:not([src]){
+  background: center/contain no-repeat;
+  text-indent: -999px;
+  overflow: hidden;
+  padding: .5em;
+  color: red;
+  &::before{
+    content: "";
+    display: block;
+    padding: 100%;
+  }
+}
+
+[class~=list]:empty,
+[class*=List]:empty{
+  position: relative;
+  height: 6em;
+}
+[class~=list]:empty:after,
+[class*=List]:empty:after{
+  content: '暂无数据';
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 6em;
+  font-size: .925em;
+  opacity: .46;
+}

@@ -1,0 +1,135 @@
+{
+  "name": "common",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:test": "vue-cli-service build",
+    "build:release": "vue-cli-service build --modern",
+    "serve": "vue-cli-service serve",
+    "open": "vue-cli-service serve --open",
+    "install:": "npm i -g cnpm & cnpm i",
+    "inspect": "vue-cli-service inspect",
+    "report": "vue-cli-service build --modern --report",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vant": "^2.9.0",
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.4",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-router": "~4.4.0",
+    "@vue/cli-plugin-unit-jest": "~4.4.0",
+    "@vue/cli-plugin-vuex": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/test-utils": "^1.0.3",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "image-webpack-loader": "^6.0.0",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
+    "lint-staged": "^9.5.0",
+    "postcss-pxtorem": "^5.1.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "quoteProps": "consistent",
+    "endOfLine": "auto",
+    "printWidth": 80
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "browser": true,
+      "es6": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/prettier"
+    ],
+    "rules": {
+      "no-undef": "error",
+      "no-empty": [
+        1,
+        {
+          "allowEmptyCatch": true
+        }
+      ],
+      "no-unused-vars": [
+        1,
+        {
+          "vars": "all",
+          "args": "none",
+          "ignoreRestSiblings": true,
+          "argsIgnorePattern": "^_|e"
+        }
+      ],
+      "space-before-function-paren": 0,
+      "no-console": 0,
+      "vue/max-attributes-per-line": 0,
+      "vue/html-self-closing": [
+        1,
+        {
+          "html": {
+            "void": "always",
+            "normal": "never",
+            "component": "any"
+          },
+          "svg": "never",
+          "math": "never"
+        }
+      ]
+    },
+    "globals": {
+      "wx": true
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}

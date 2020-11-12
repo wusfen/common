@@ -1,0 +1,36 @@
+@import './reset.less';
+@import './font.less';
+@import './pxtorem.less';
+@import './empty.less';
+@import './components.less';
+@import './form.less';
+@import './color.less';
+@import './icon.less';
+@import './transition.less';
+@import './classes.less';
+@import './lazyload.less';
+
+.page {
+  position: relative;
+  max-width: 750px;
+  min-height: 100vh;
+  margin: auto;
+  box-shadow: 1px 1px 15px #aaa;
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+}
+
+.pane {
+  padding: 1em;
+  background: #ffffff;
+  box-shadow: 0 2px 30px 5px rgba(255, 56, 56, 0.48);
+  border-radius: 20px;
+}
+
+// van
+.van-swipe-item {
+  transition: none;
+}
