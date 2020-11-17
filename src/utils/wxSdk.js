@@ -127,10 +127,14 @@ async function onshare(options = {}) {
 
   wx.onMenuShareTimeline(data)
   wx.onMenuShareAppMessage(data)
-  // 一下两个success在设置成功立即触发，并不是在分享成功后
+  // 以下两个方法的success在设置成功立即触发，并不是在分享成功后
   // wx.updateAppMessageShareData({ ...data, success: null })
   // wx.updateTimelineShareData({ ...data, success: null })
 }
 
+$wx.onshare = onshare
 export { $wx, config, onshare }
 export default $wx
+
+// console
+window.$wx = $wx

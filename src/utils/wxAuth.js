@@ -70,13 +70,14 @@ async function getCode(options) {
       // jump
       var authUrl = getAuthUrl(options)
       // timeout wait bgi
-      // 这个时间必须并且不能短，否则有些机型（iphone7plus） wx.config 没有任何反应
+      // 这个时间必须并且不能短，否则有些机型（iphone7plus） history.back 之后 wx.config 没有任何反应
       setTimeout(() => {
         // location.replace 对微信授权链接无效
         location.href = authUrl
       }, 666)
       // must
-      addEventListener('click', e => {
+      // document: window 微信并非点所有元素都触发
+      document.addEventListener('click', e => {
         if (!session['wx:code']) {
           location.href = authUrl
         }
@@ -110,7 +111,7 @@ async function getCode(options) {
   if (code) {
     if (session['wx:code:back']) {
       // back by pageshow
-      return Promise.reject('wx:code:back')
+      return new Promise(r => {})
     } else {
       replaceUrl({ code: undefined, state: undefined })
       return code
@@ -118,6 +119,46 @@ async function getCode(options) {
   }
 }
 
+/**
+ * 返回微信code
+ * @param {object|boolean} options true=>{scope:'snsapi_userinfo'}
+ */
+function getCode2(options) {
+  var code = param('code')
+
+  // 1: !code jump
+  if (!code) {
+    // jump
+    var authUrl = getAuthUrl(options)
+    location.replace(authUrl)
+
+    // must
+    document.body.style.pointerEvents = 'none'
+    addEventListener('click', e => {
+      location.replace(authUrl)
+    })
+
+    // back closeWindow
+    setTimeout(() => {
+      addEventListener('pageshow', e => {
+        window.wx.closeWindow()
+      })
+    }, 1)
+
+    return new Promise(r => {}) // never resolve
+  }
+
+  // 2: code
+  if (code) {
+    replaceUrl({ code: undefined, state: undefined })
+    return code
+  }
+}
+
+/**
+ *
+ * @param {boolean} bool true? {unionId,openId}: {openId}
+ */
 async function fetchUserInfo(bool) {
   var code = await getCode(bool)
 
@@ -128,7 +169,7 @@ async function fetchUserInfo(bool) {
   session /**/[`wx:openId:${config.appid}`] = data.openId
   if (bool) {
     session /**/[`wx:unionId:${config.appid}`] = data.unionId
-    session /**/[`wx:userInfo:20201109`] = data
+    session /**/[`wx:userInfo:${config.appid}:20201109`] = data
   }
 
   return data
@@ -154,7 +195,7 @@ async function getUnionId() {
 
 // TODO 用户修改微信头像，头像链接会失效
 async function getUserInfo() {
-  var userInfo = session /**/[`wx:userInfo:20201109`]
+  var userInfo = session /**/[`wx:userInfo:${config.appid}:20201109`]
   if (userInfo) {
     return userInfo
   }

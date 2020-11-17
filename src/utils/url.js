@@ -1,11 +1,11 @@
 /**
  * 获取所有 url 参数
  * @example
- * getParams().id
+ * params().id
  * @param {string?} url
  * @returns {object} url上的所有参数，返回一个对象
  */
-export function getParams(url = location.href) {
+function params(url = location.href) {
   var reg = /([^?=&#]*)=([^?=&#]*)/g
   var m
   var map = {}
@@ -23,18 +23,14 @@ export function getParams(url = location.href) {
   return map
 }
 
-export var params = getParams
-
 /**
  * 获取单个url参数
  * @param {string} name url参数名
  * @returns {string} 返回url参数值
  */
-export function getParam(name) {
-  return getParams()[name]
+function param(name) {
+  return params()[name]
 }
-
-export var param = getParam
 
 /**
  * 设置参数返回新的url
@@ -47,7 +43,7 @@ export var param = getParam
  * @param {object} params 设置的参数
  * @returns {string} new url
  */
-export function setParams(url, params) {
+function setParams(url, params) {
   if (!params) {
     params = url
     url = location.href
@@ -78,7 +74,7 @@ export function setParams(url, params) {
  * 修改当前url
  * @param {object} params
  */
-export function replaceUrl(params) {
+function replaceUrl(params) {
   var url = setParams(params)
   history.replaceState('', '', url)
 }
@@ -87,7 +83,7 @@ export function replaceUrl(params) {
  * 相对地址转绝对地址
  * @param {string} path
  */
-export function getFullPath(path) {
+function getFullPath(path) {
   var a = document.createElement('a')
   a.href = path
   return a.href
@@ -98,20 +94,22 @@ export function getFullPath(path) {
  * @param {string} path
  * @param {object} params
  */
-export function Url(path = '', params = {}) {
+function Url(path = location.href, params = {}) {
   if (typeof path == 'object') {
     params = path
-    path = ''
+    path = location.href
   }
 
   var url = getFullPath(path)
   return setParams(url, params)
 }
 
+export { params, param, Url, replaceUrl, getFullPath }
+export { params as getParams, param as getParam, setParams }
+export default Url
+
 // console
 window.param = param
 window.params = params
-window.getParams = getParams
-window.setParams = setParams
-window.replaceUrl = replaceUrl
 window.Url = Url
+window.replaceUrl = replaceUrl

@@ -25,14 +25,7 @@ export function copy(value, callback = copy.callback) {
 
 copy.callback = function(result, value) {
   var msg = result ? '复制成功' : '复制失败'
-  var title = document.title
-
-  document.title = msg
-  setTimeout(() => {
-    if (document.title === msg) {
-      document.title = title
-    }
-  }, 2000)
+  alert(msg)
 }
 
 export default copy
