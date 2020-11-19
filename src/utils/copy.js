@@ -7,9 +7,10 @@
  * @param {boolean} result
  * @param {string} value
  */
-export function copy(value, callback = copy.callback) {
+function copy(value, callback = copy.callback) {
   var textarea = document.createElement('textarea')
   document.body.appendChild(textarea)
+  value = typeof value === 'object' ? JSON.stringify(value) : value
   textarea.value = value
   textarea.readOnly = true
   textarea.select()
@@ -28,4 +29,5 @@ copy.callback = function(result, value) {
   alert(msg)
 }
 
+export { copy }
 export default copy
