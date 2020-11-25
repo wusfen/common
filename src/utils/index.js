@@ -1,5 +1,6 @@
 var utils = {}
 ![
+  'a',
   'fix',
   'Date',
   'error',
@@ -9,7 +10,7 @@ var utils = {}
   'copy',
   'storage',
   'validate',
-  'img',
+  // 'img',
 ].forEach(item => {
   var m = require('./' + item)
   Object.assign(utils, m)

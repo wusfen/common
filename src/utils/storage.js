@@ -1,8 +1,4 @@
 /**
- * 本地存储
- * 自动序列化
- * 自动解析
- *
  * @example
  * session.key = 'value'
  * local.obj = {k:'v'}

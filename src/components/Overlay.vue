@@ -18,7 +18,9 @@
 <script>
 export default {
   props: {
-    value: Boolean,
+    value: {
+      default: true,
+    },
     noClose: Boolean,
   },
   data() {

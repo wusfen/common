@@ -141,7 +141,7 @@ function getCode2(options) {
     // back closeWindow
     setTimeout(() => {
       addEventListener('pageshow', e => {
-        window.wx.closeWindow()
+        // window.wx.closeWindow() // ??
       })
     }, 1)
 

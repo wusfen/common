@@ -31,7 +31,9 @@
 import Overlay from './Overlay.vue'
 export default {
   props: {
-    value: Boolean,
+    value: {
+      default: true,
+    },
     noClose: Boolean,
     width: String,
   },
