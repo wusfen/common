@@ -8,12 +8,14 @@
  * @param {string} value
  */
 function copy(value, callback = copy.callback) {
+  value = typeof value === 'object' ? JSON.stringify(value) : value
+
   var textarea = document.createElement('textarea')
   document.body.appendChild(textarea)
-  value = typeof value === 'object' ? JSON.stringify(value) : value
   textarea.value = value
   textarea.readOnly = true
   textarea.select()
+
   var result = false
   try {
     result = document.execCommand('copy')

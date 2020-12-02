@@ -123,7 +123,7 @@ async function onshare(options = {}) {
     imgUrl: document.querySelector('img')?.src,
     ...options,
   }
-  console.log('[configShare]', data)
+  console.log('[share data]', data)
 
   wx.onMenuShareTimeline(data)
   wx.onMenuShareAppMessage(data)

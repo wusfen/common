@@ -1,5 +1,5 @@
 <!-- 
-<Modal v-model="bool" no-close>
+<Modal v-model="bool" no-close @open @close>
   <div slot="title">title</title>
   content
   <div slot="footer">footer</div>
@@ -52,9 +52,7 @@ export default {
       }
 
       this.$emit('input', value)
-      if (!value) {
-        this.$emit('close')
-      }
+      this.$emit(value ? 'open' : 'close', value)
     },
   },
 }

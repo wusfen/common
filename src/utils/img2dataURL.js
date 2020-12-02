@@ -5,6 +5,7 @@
  */
 export default function img2dataURL(imgOrSrc) {
   var url = imgOrSrc.src || imgOrSrc
+
   return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)

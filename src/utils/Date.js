@@ -9,9 +9,9 @@ var _Date = global.Date
  */
 class Date extends global.Date {
   constructor(...args) {
-    var string = args[0]
-    if (typeof string === 'string') {
-      args[0] = string
+    var arg0 = args[0]
+    if (typeof arg0 === 'string') {
+      args[0] = arg0
         .replace(/-/g, '/') // fix ios: 'yyyy-MM-dd' => 'yyyy/MM/dd'
         .replace(/^\d{4}\/\d{1,2}$/, '$&/01') // fix ios: 'yyyy/MM' => 'yyyy/MM/01'
         .replace(
@@ -28,6 +28,8 @@ class Date extends global.Date {
    */
   format(pattern = 'yyyy-MM-dd HH:mm:ss') {
     var date = this
+
+    // pattern: value
     var map = {
       y: date.getFullYear(),
       M: date.getMonth() + 1,
@@ -41,14 +43,18 @@ class Date extends global.Date {
       s: date.getSeconds(),
       S: date.getMilliseconds(),
     }
+
+    // pattern => value
     for (var key in map) {
-      pattern = pattern.replace(RegExp(key + '+', 'g'), function($) {
-        var v = map[key] + ''
-        var x = (Array($.length).join(0) + v).slice(-$.length)
-        return v.length > x.length ? v : x
+      pattern = pattern.replace(RegExp(key + '+', 'g'), function($and) {
+        var value = String(map[key])
+        // pad 0
+        var length0 = Math.max($and.length - value.length, 0)
+        return Array(length0 + 1).join(0) + value
       })
     }
 
+    // E
     return pattern.replace(/E+/g, function($and) {
       return /中国/.test(date)
         ? ($and == 'E' ? '周' : '星期') +

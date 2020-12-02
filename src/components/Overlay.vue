@@ -1,5 +1,5 @@
 <!-- 
-<Overlay v-model="bool" no-close>
+<Overlay v-model="bool" no-close @open @close>
   content
 </Overlay>
 -->
@@ -42,6 +42,7 @@ export default {
       }
 
       this.$emit('input', value)
+      this.$emit(value ? 'open' : 'close', value)
     },
   },
 }

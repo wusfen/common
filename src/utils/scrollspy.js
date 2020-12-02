@@ -19,14 +19,14 @@
  */
 
 addEventListener('click', function(e) {
-  // <a>
+  // <a href="#id">
   var a = (function up(a) {
     if (!a || !a.getAttribute) return
     var href = a.getAttribute('href')
     return /^#/.test(href) ? a : up(a.parentNode)
   })(e.target)
 
-  // scrollIntoView
+  // #id scrollIntoView
   if (a) {
     e.preventDefault()
 
