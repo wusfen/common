@@ -132,16 +132,18 @@ function getCode2(options) {
     var authUrl = getAuthUrl(options)
     location.replace(authUrl)
 
-    // must
-    document.body.style.pointerEvents = 'none'
-    addEventListener('click', e => {
+    // reject? click jump again
+    // document: window 微信并非点所有元素都触发
+    document.addEventListener('click', e => {
       location.replace(authUrl)
     })
+    document.body.style.pointerEvents = 'none'
 
     // back closeWindow
     setTimeout(() => {
       addEventListener('pageshow', e => {
-        // window.wx.closeWindow() // ??
+        // 微信中跳转之后， replaceState url 跟前一个页面的一样，返回时，前一个共享了后一个的上下文
+        // window.wx.closeWindow()
       })
     }, 1)
 
