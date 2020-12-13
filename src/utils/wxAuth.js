@@ -160,23 +160,33 @@ function getCode2(options) {
  * @param {boolean} bool true? {unionId,openId}: {openId}
  */
 async function fetchUserInfo(bool) {
-  var code = await getCode(bool)
+  // !wx test
+  if (!/MicroMessenger/i.test(navigator.userAgent)) {
+    console.warn('!wx fetchUserInfo')
+    return {
+      openId: 'testOpenId',
+      // openId: 'otXGV1QGGno4OzmAUMAu8jvbCqNA',
+      unionId: 'testUnionId',
+    }
+  }
+
+  var code = await getCode2(bool)
 
   var { data } = await ajax.get('/weChatApi/sr/rmk/xqbg/login', { code })
   // TODO try again?
 
   // save
-  session /**/[`wx:openId:${config.appid}`] = data.openId
+  local[`wx:openId:${config.appid}`] = data.openId
   if (bool) {
-    session /**/[`wx:unionId:${config.appid}`] = data.unionId
-    session /**/[`wx:userInfo:${config.appid}:20201109`] = data
+    local[`wx:unionId:${config.appid}`] = data.unionId
+    local[`wx:userInfo:${config.appid}`] = data
   }
 
   return data
 }
 
 async function getOpenId() {
-  var openId = session /**/[`wx:openId:${config.appid}`]
+  var openId = local[`wx:openId:${config.appid}`]
   if (openId) {
     return openId
   }
@@ -185,7 +195,7 @@ async function getOpenId() {
 }
 
 async function getUnionId() {
-  var unionId = session /**/[`wx:unionId:${config.appid}`]
+  var unionId = local[`wx:unionId:${config.appid}`]
   if (unionId) {
     return unionId
   }
@@ -195,7 +205,7 @@ async function getUnionId() {
 
 // TODO 用户修改微信头像，头像链接会失效
 async function getUserInfo() {
-  var userInfo = session /**/[`wx:userInfo:${config.appid}:20201109`]
+  var userInfo = local[`wx:userInfo:${config.appid}`]
   if (userInfo) {
     return userInfo
   }
