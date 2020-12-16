@@ -41,6 +41,7 @@ function getAuthUrl(options = {}) {
 }
 
 /**
+ * A(url) -> B(url+code) -> back => A(url)
  * 返回微信code
  * @param {object|boolean} options true=>{scope:'snsapi_userinfo'}
  * @returns code
@@ -120,8 +121,7 @@ async function getCode(options) {
 }
 
 /**
- * 返回微信code
- * @param {object|boolean} options true=>{scope:'snsapi_userinfo'}
+ * A(url) -> B(url+code) => B(url)
  */
 function getCode2(options) {
   var code = param('code')
@@ -158,6 +158,43 @@ function getCode2(options) {
 }
 
 /**
+ * A(url) -> B(url+code) => B(url+code)
+ */
+function getCode3(options) {
+  var code = param('code')
+
+  // 1: !code jump
+  if (!code) {
+    // jump
+    var authUrl = getAuthUrl(options)
+    location.replace(authUrl)
+
+    // reject? click jump again
+    // document: window 微信并非点所有元素都触发
+    document.addEventListener('click', e => {
+      location.replace(authUrl)
+    })
+    document.body.style.pointerEvents = 'none'
+
+    // back closeWindow
+    setTimeout(() => {
+      addEventListener('pageshow', e => {
+        // window.wx.closeWindow()
+      })
+    }, 1)
+
+    return new Promise(r => {}) // never resolve
+  }
+
+  // 2: code
+  if (code) {
+    // remove
+    // replaceUrl({ code: undefined, state: undefined })
+    return code
+  }
+}
+
+/**
  *
  * @param {boolean} bool true? {unionId,openId}: {openId}
  */
@@ -165,14 +202,22 @@ async function fetchUserInfo(bool) {
   // !wx test
   if (!/MicroMessenger/i.test(navigator.userAgent)) {
     console.warn('!wx fetchUserInfo')
+
+    if (/^https?:..(1|wx)/.test(location.href)) {
+      return {
+        openId: 'test',
+        // openId: 'otXGV1QGGno4OzmAUMAu8jvbCqNA',
+        unionId: 'test',
+      }
+    }
+
     return {
-      openId: 'testOpenId',
-      // openId: 'otXGV1QGGno4OzmAUMAu8jvbCqNA',
-      unionId: 'testUnionId',
+      openId: '',
+      unionId: '',
     }
   }
 
-  var code = await getCode2(bool)
+  var code = await getCode3(bool)
 
   var { data } = await ajax.get('/weChatApi/sr/rmk/xqbg/login', { code })
   // TODO try again?
@@ -208,6 +253,10 @@ async function getUnionId() {
 // TODO 用户修改微信头像，头像链接会失效
 async function getUserInfo() {
   var userInfo = local[`wx:userInfo:${config.appid}`]
+  if (param('debug')) {
+    userInfo = session[`wx:userInfo:${config.appid}`]
+  }
+
   if (userInfo) {
     return userInfo
   }
