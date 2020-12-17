@@ -19,7 +19,7 @@
         </slot>
       </div>
       <div class="body">
-        <slot>modal</slot>
+        <slot></slot>
       </div>
       <div class="footer">
         <slot name="footer"></slot>
@@ -70,10 +70,14 @@ export default {
   background: #ffffff;
   box-shadow: 0 2px 30px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+  font-family: SourceHanSansCN-Normal;
+  font-size: 28px;
+  color: #6d7278;
   &::before,
   &::after {
     content: '';
-    display: table;
+    display: block;
+    margin: 60px 0;
   }
   &.no-close {
     .close {
@@ -81,7 +85,7 @@ export default {
     }
   }
   .header {
-    margin: 40px 0;
+    margin: 30px 0;
     .title {
       font-family: SourceHanSansCN-Regular;
       font-size: 30px;
@@ -99,7 +103,7 @@ export default {
     }
   }
   .body {
-    margin: 40px 0;
+    margin: 30px 0;
     padding: 0 40px;
   }
   .footer {

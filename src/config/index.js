@@ -31,4 +31,5 @@ export { config, server, oss }
 export default config
 
 // console
+window.configMap = configMap
 window.config = config
