@@ -16,9 +16,16 @@
 
 // .page > *
 each(range(2, 9), {
+  main > section:nth-child(@{value}),
   .page > section:nth-child(@{value}):not(.banner){
     animation: section .5s backwards;
     animation-delay: (@value - 2) * .1s;
+  }
+});
+each(range(1, 9), {
+  main > section:nth-child(@{value}){
+    animation: section .5s backwards;
+    animation-delay: (@value - 1) * .075s;
   }
 });
 
@@ -33,13 +40,30 @@ each(range(2, 9), {
 }
 
 // img
-[src] {
-  opacity: 1;
-  transition: opacity 0.5s 0.5s;
+img:not([src*='/']) {
+  animation: src0 .5s 3s both;
 }
-[src=''],
-img:not([src]) {
-  opacity: 0.2;
+
+[src*='/'] {
+  animation: src .5s 0.5s both;
+}
+
+@keyframes src0 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes src {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // vue
