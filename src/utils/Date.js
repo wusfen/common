@@ -66,10 +66,24 @@ class Date extends global.Date {
   /**
    * 链式加减日期
    * @param {string} name FullYear Month Date Hours Minutes Seconds Milliseconds
+   * short: y M d H h m s S
    * @param {number} n +1, -1
    */
   add(name, n) {
+    name =
+      {
+        y: 'FullYear',
+        M: 'Month',
+        d: 'Date',
+        H: 'Hours',
+        h: 'Hours',
+        m: 'Minutes',
+        s: 'Seconds',
+        S: 'Milliseconds',
+      }[name] || name
+
     this['set' + name](this['get' + name]() + n)
+
     return this
   }
 }
