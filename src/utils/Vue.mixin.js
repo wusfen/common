@@ -33,6 +33,37 @@ export default {
     })
 
     /**
+     * auto clear setInterval
+     * @param {function} cb
+     * @param {*} time
+     */
+    Vue.prototype.setInterval = function(cb, time) {
+      var timer = setInterval(cb, time)
+      this._timers = this._timers || []
+      this._timers.push(timer)
+    }
+    /**
+     * auto clear setTimeout
+     * @param {function} cb
+     * @param {*} time
+     */
+    Vue.prototype.setTimeout = function(cb, time) {
+      var timer = setTimeout(cb, time)
+      this._timers = this._timers || []
+      this._timers.push(timer)
+    }
+    Vue.mixin({
+      destroyed() {
+        var timers = this._timers || []
+        for (let i = 0; i < timers.length; i++) {
+          const timer = timers[i]
+          clearInterval(timer)
+          clearTimeout(timer)
+        }
+      },
+    })
+
+    /**
      * console
      * vue
      */
