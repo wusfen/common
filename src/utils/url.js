@@ -52,17 +52,18 @@ function setParams(url, params) {
   for (var key in params) {
     var value = params[key]
 
-    // - ?k=1&  ?..&k=1&..  ?k=1  ?k=1#
-    var kv = `${key}=[^?=&#]*`
+    // - key=xxx
     url = url
-      .replace(RegExp(`${kv}&|&${kv}`, 'g'), '')
-      .replace(RegExp(`[?]${kv}($|#)`), '$1')
+      .replace(RegExp(`([?&])${key}=[^?=&#]*`, 'g'), '$1')
+      .replace(/([?&])[?&]+/, '$1') // - ?& &&
 
-    // + url  url?e=1  url?e=1&e=2  url#  url?e=1#
+    // + key=value
+    // url  url?e=1  url?e=1&e=2  url#  url?e=1#
     if (value !== undefined) {
       var arr = url.split('#')
       var urlSub = arr[0]
       var hash = arr[1]
+
       url = urlSub + `${urlSub.match(/[?]/) ? '&' : '?'}${key}=${value}`
       url = url + (hash ? `#${hash}` : '')
     }

@@ -41,7 +41,7 @@ addEventListener('click', function(e) {
 })
 
 addEventListener('scroll', function fun(e) {
-  if (new Date() - fun.lastDate < 100) return
+  if (new Date() - fun.lastDate < 46) return
   fun.lastDate = new Date()
 
   // [id]s top: active

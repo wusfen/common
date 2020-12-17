@@ -143,15 +143,12 @@ export function validate(form, rules, callback = validate.callback) {
   var pass = !JSON.stringify(result).match('":false')
 
   var validated = new Promise((rs, rj) => {
-    pass ? rs(result) : rj(result) // TODO: -rj
+    pass ? rs(result) : false
   })
   validated.pass = pass
   validated.result = result
 
   callback(pass, result)
-  if (!pass) {
-    console.warn('validate', pass, result)
-  }
   return validated
 }
 
