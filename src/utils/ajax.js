@@ -1,6 +1,6 @@
 /**
  * config:
- * ajax.base = 'server'
+ * ajax.base = 'http://server.com/api/base'
  */
 
 /**
@@ -10,10 +10,20 @@
  * @param {boolean?} silence 静默
  */
 async function GET(url, params, silence) {
+  // - undefined
+  for (var key in params) {
+    var value = params[key]
+    if (value === undefined) {
+      delete params[key]
+    }
+  }
+
+  // toString
   var search = new URLSearchParams(params) + ''
   if (search) {
     search = (url.match('[?]') ? '&' : '?') + search
   }
+
   return ajax({
     url: `${url}${search}`,
     silence,
@@ -101,10 +111,13 @@ async function ajax(urlOrOptions, options = {}) {
       'X-Requested-With': 'XMLHttpRequest',
       ...options.headers,
     },
-    body:
-      typeof options.data === 'object'
-        ? JSON.stringify(options.data, '', ' ')
-        : options.data,
+    body: (function() {
+      var data = options.data
+      if (toString.call(data) == '[object Object]') {
+        return JSON.stringify(options.data, null, '  ')
+      }
+      return data
+    })(),
   })
     .catch(e => {
       // console.error(e)
