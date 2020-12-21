@@ -224,9 +224,12 @@ async function fetchUserInfo(bool) {
 
   // save
   local[`wx:openId:${config.appid}`] = data.openId
+  session[`wx:openId:${config.appid}`] = data.openId
   if (bool) {
     local[`wx:unionId:${config.appid}`] = data.unionId
     local[`wx:userInfo:${config.appid}`] = data
+    session[`wx:unionId:${config.appid}`] = data.unionId
+    session[`wx:userInfo:${config.appid}`] = data
   }
 
   return data

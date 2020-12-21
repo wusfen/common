@@ -1,13 +1,13 @@
 /**
  * 1天前 2小时前 3分钟前 4秒前 刚刚
- * @param {Date} date
+ * @param {Date|number|string} date Date, timestamp, date string
  */
 function ago(date) {
-  let S = new Date() - new Date(date)
-  let s = Math.floor(S / 1000)
-  let m = Math.floor(s / 60)
-  let H = Math.floor(m / 60)
-  let d = Math.floor(H / 24)
+  var S = new Date() - new Date(date)
+  var s = Math.floor(S / 1000)
+  var m = Math.floor(s / 60)
+  var H = Math.floor(m / 60)
+  var d = Math.floor(H / 24)
 
   return d
     ? d + '天前'
