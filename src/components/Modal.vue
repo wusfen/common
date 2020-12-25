@@ -113,7 +113,10 @@ export default {
       height: 64px;
       border-radius: 99em;
       &:only-child {
-        min-width: 246px;
+        min-width: 200px;
+      }
+      + button {
+        margin-left: 15px;
       }
     }
   }

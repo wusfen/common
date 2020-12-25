@@ -46,7 +46,7 @@ function getAuthUrl(options = {}) {
  * @param {object|boolean} options true=>{scope:'snsapi_userinfo'}
  * @returns code
  */
-async function getCode(options) {
+async function getCode1(options) {
   var code = param('code')
 
   if (!code) {
@@ -194,6 +194,10 @@ function getCode3(options) {
   }
 }
 
+function getCode(params) {
+  return getCode3(params)
+}
+
 /**
  *
  * @param {boolean} bool true? {unionId,openId}: {openId}
@@ -217,7 +221,7 @@ async function fetchUserInfo(bool) {
     }
   }
 
-  var code = await getCode3(bool)
+  var code = await getCode(bool)
 
   var { data } = await ajax.get('/weChatApi/sr/rmk/xqbg/login', { code })
   // TODO try again?
