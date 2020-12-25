@@ -2,40 +2,29 @@
  * form validate
  *
  * @example
- * await validate(value, rule)
- * await validate({}, {key: rule})
+ * await validate('http://domain.com', '* url')
+ * @example
+ * await validate({username:''}, {username:'* 3-20'})
  *
  * @example
- * var validated = validate(value, rule)
- * var validated = validate({}, {key: rule})
- * if (validated.pass) {
- *    console.log(validated.result)
- * }
+ * rule: '* type min-max /reg/ :名称 #提示'
+ *        *: required
+ *     type: string number boolean array object date regexp
+ *           url email phone idcard
+ *  min-max: number-number
+ *    /reg/: regexp
+ *     :名称: 默认提示使用的名称
+ *     #提示: 自定义提示
  *
  * @example
- * rule: '*type.min-max/reg/:名称#提示'
- *   *:       required
- *   type:    string number boolean array object date regexp
- *            url email phone idcard
- *   min-max: number-number
- *   /reg/:   regexp
- *   :名称:    默认提示使用的名称
- *   #提示:    自定义提示
- * @example
- * validate('http://domain.com', '*url')
- * @example
- * validate({username:''}, {username:'*3-20'})
- * @example
- * validate(form, {
+ * await validate(form, {
  *   key: '*',
  *   key: 'url',
- *   key: '*url:名称',
- *   key: '*string.10-20',
- *   key: '*10-20',
- *   key: '*11',
- *   key: '*number.100-200',
+ *   key: '* url 5-100',
+ *   key: '* url 5-100 :链接',
+ *   key: '* 11',
  *   key: /reg/,
- *   key: '/reg/#请输入正确的信息',
+ *   key: '/reg/ #请输入正确的信息',
  * })
  * @example
  * // 覆盖默认提示方式
@@ -107,7 +96,7 @@ export function validate(form, rules, callback = validate.callback) {
         if (type === 'email' && !value.match(/^.+@.+$/)) {
           result[key].type = false
         }
-        if (type === 'phone' && !value.match(/^[-+()（）0-9]{6,}$/)) {
+        if (type === 'phone' && !value.match(/^\d{11}$/)) {
           result[key].type = false
         }
         if (type === 'idcard') {
@@ -116,7 +105,7 @@ export function validate(form, rules, callback = validate.callback) {
             var xs = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
             var ms = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2]
             xs.map((item, i) => (sum += xs[i] * string[i]))
-            return string[17].toUpperCase() === String(ms[sum % 11])
+            return String(string[17]).toUpperCase() === String(ms[sum % 11])
           })(value)
         }
       }
