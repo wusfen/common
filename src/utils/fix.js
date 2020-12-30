@@ -17,7 +17,7 @@ document.body.addEventListener('touchstart', function(e) {})
 if (Object.defineProperty) {
   Object.defineProperty(document, 'title', {
     set(title) {
-      // console.log('document.title =', title)
+      // console.trace('document.title =', title)
       // raw
       document.querySelector('title').innerText = title
 

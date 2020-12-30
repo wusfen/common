@@ -3,10 +3,11 @@
  * session.key = 'value'
  * local.obj = {k:'v'}
  *
- * x: local.obj.subKey = 'invalid'
- * y: obj = local.obj
- *    obj.subKey = 'new value'
- *    local.obj = obj
+ * no : local.obj.subKey = 'invalid'
+ *
+ * yes: obj = local.obj
+ *      obj.subKey = 'new value'
+ *      local.obj = obj
  */
 var session = createProxy(sessionStorage)
 var local = createProxy(localStorage)
