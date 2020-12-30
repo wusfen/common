@@ -14,7 +14,7 @@ export default {
       var alert = new Vue(Alert)
       alert.isShow = false
       alert.message = message
-      alert.$on('close', cb)
+      alert.$on('close', cb || Function)
       alert.$nextTick(e => {
         alert.isShow = true
       })
