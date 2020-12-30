@@ -102,7 +102,7 @@ async function ajax(urlOrOptions, options = {}) {
   }
   if (ajax.count == 1) {
     document.body.style.pointerEvents = 'none'
-    ajax.onloadstart()
+    ajax.onloadstart(options)
   }
 
   return fetch(url, {
@@ -141,7 +141,7 @@ async function ajax(urlOrOptions, options = {}) {
       }
     })
     .then(res => {
-      res = ajax.onload(res)
+      res = ajax.onload(res, options)
       if (res !== undefined) {
         return res
       } else {
@@ -154,7 +154,7 @@ async function ajax(urlOrOptions, options = {}) {
           ajax.count -= 1
           if (ajax.count === 0) {
             document.body.style.pointerEvents = ''
-            ajax.onloadend()
+            ajax.onloadend(res, options)
           }
         }, 300)
       }
