@@ -171,7 +171,7 @@ ajax.onloadstart = function() {
   }
 }
 ajax.onloadend = function() {
-  if (document.title === 'loading...') {
+  if (document.title === 'loading...' && ajax._title) {
     document.title = ajax._title
   }
 }

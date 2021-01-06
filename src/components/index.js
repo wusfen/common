@@ -22,6 +22,11 @@ export default {
       var el = document.createElement('div')
       document.body.appendChild(el)
       alert.$mount(el)
+      alert.$on('close', e => {
+        alert.$nextTick(e => {
+          alert.$destroy()
+        })
+      })
     }
   },
 }

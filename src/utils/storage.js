@@ -1,13 +1,16 @@
 /**
  * @example
  * session.key = 'value'
- * local.obj = {k:'v'}
+ *
+ * @example
+ * var obj = local.obj
+ *
+ * @example
+ * yes: obj = local.obj           // read
+ *      obj.subKey = 'new value'  // update
+ *      local.obj = obj           // write
  *
  * no : local.obj.subKey = 'invalid'
- *
- * yes: obj = local.obj
- *      obj.subKey = 'new value'
- *      local.obj = obj
  */
 var session = createProxy(sessionStorage)
 var local = createProxy(localStorage)
