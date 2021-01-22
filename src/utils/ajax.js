@@ -94,7 +94,7 @@ async function ajax(urlOrOptions, options = {}) {
   }
 
   var url = options.url || urlOrOptions
-  url = url.match(/^https?:/) ? url : `${ajax.base}/${url}` // +base?
+  url = url.match(/^https?:|^[/][/]/) ? url : `${ajax.base}/${url}` // !(http||//)? +base
   url = url.replace(/([^:/])[/]{2,}/g, '$1/') // /// => /
 
   if (!options.silence) {
@@ -141,7 +141,9 @@ async function ajax(urlOrOptions, options = {}) {
       }
     })
     .then(res => {
-      res = ajax.onload(res, options)
+      res = options.onload
+        ? options.onload(res, options)
+        : ajax.onload(res, options)
       if (res !== undefined) {
         return res
       } else {

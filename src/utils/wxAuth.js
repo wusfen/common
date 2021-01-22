@@ -1,6 +1,6 @@
 import { Url, param, replaceUrl } from './url'
 import { session, local } from './storage'
-import { config } from '../config'
+import { config, server } from '../config'
 import { ajax } from './ajax'
 
 /**
@@ -188,8 +188,10 @@ function getCode3(options) {
 
   // 2: code
   if (code) {
-    // remove
-    // replaceUrl({ code: undefined, state: undefined })
+    // wechatdevtools remove code
+    if (/wechatdevtools/i.test(navigator.userAgent)) {
+      replaceUrl({ code: undefined, state: undefined })
+    }
     return code
   }
 }
@@ -197,6 +199,10 @@ function getCode3(options) {
 function getCode(params) {
   return getCode3(params)
 }
+
+const OPEN_ID_KEY = `wx:openId:${config.appid}`
+const UNION_ID_KEY = `wx:unionId:${config.appid}`
+const USER_INFO_KEY = `wx:userInfo:${config.appid}`
 
 /**
  *
@@ -221,35 +227,54 @@ async function fetchUserInfo(bool) {
     }
   }
 
-  var code = await getCode(bool)
+  // fetch
+  fetchUserInfo.promise =
+    fetchUserInfo.promise ||
+    new Promise(async rs => {
+      local[OPEN_ID_KEY] = undefined
+      session[OPEN_ID_KEY] = undefined
 
-  var { data } = await ajax.get('/weChatApi/sr/rmk/xqbg/login', { code })
-  // TODO try again?
+      var code = await getCode(bool)
+      var { returnObject: data } = await ajax.get(
+        server + '/weChatApi/sr/rmk/xqbg/login',
+        {
+          code,
+        }
+      )
 
-  // save
-  local[`wx:openId:${config.appid}`] = data.openId
-  session[`wx:openId:${config.appid}`] = data.openId
-  if (bool) {
-    local[`wx:unionId:${config.appid}`] = data.unionId
-    local[`wx:userInfo:${config.appid}`] = data
-    session[`wx:unionId:${config.appid}`] = data.unionId
-    session[`wx:userInfo:${config.appid}`] = data
-  }
+      // save
+      local[OPEN_ID_KEY] = data.openId
+      session[OPEN_ID_KEY] = data.openId
+      if (bool) {
+        local[UNION_ID_KEY] = data.unionId
+        local[USER_INFO_KEY] = data
+        session[UNION_ID_KEY] = data.unionId
+        session[USER_INFO_KEY] = data
+      }
 
-  return data
+      rs(data)
+    })
+
+  return fetchUserInfo.promise
 }
 
 async function getOpenId() {
-  var openId = local[`wx:openId:${config.appid}`]
+  var openId = local[OPEN_ID_KEY]
   if (openId) {
     return openId
   }
-  var userInfo = await fetchUserInfo()
-  return userInfo.openId
+
+  return new Promise(rs => {
+    // delay for getUnionId
+    setTimeout(async () => {
+      var userInfo = await fetchUserInfo()
+      rs(userInfo.openId)
+    }, 1)
+  })
 }
 
 async function getUnionId() {
-  var unionId = local[`wx:unionId:${config.appid}`]
+  var unionId = local[UNION_ID_KEY]
   if (unionId) {
     return unionId
   }
@@ -259,9 +284,9 @@ async function getUnionId() {
 
 // TODO 用户修改微信头像，头像链接会失效
 async function getUserInfo() {
-  var userInfo = local[`wx:userInfo:${config.appid}`]
+  var userInfo = local[USER_INFO_KEY]
   if (param('debug')) {
-    userInfo = session[`wx:userInfo:${config.appid}`]
+    userInfo = session[USER_INFO_KEY]
   }
 
   if (userInfo) {

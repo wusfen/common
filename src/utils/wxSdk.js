@@ -1,3 +1,4 @@
+import { server } from '../config'
 import { ajax } from './ajax'
 import { Url, param } from './url'
 
@@ -19,8 +20,8 @@ if (wx) {
 }
 
 async function config(href = location.href) {
-  console.log('config', href)
-  console.log('firstLocationHref', config.firstLocationHref)
+  // console.log('config', href)
+  // console.log('firstLocationHref', config.firstLocationHref)
 
   // cache
   // 可能某些机型（iphone7p） hash 变化也要重新 config，所以要带hash判断
@@ -30,12 +31,15 @@ async function config(href = location.href) {
   }
 
   // config data
-  var { data } = await ajax.post('/weChatApi/getWebJsApi', {
-    pageUrl: href.split('#')[0],
-  })
+  var { returnObject: data } = await ajax.post(
+    server + '/weChatApi/getWebJsApi',
+    {
+      pageUrl: href.split('#')[0],
+    }
+  )
 
   return new Promise(rs => {
-    console.warn('config Promise')
+    // console.info('config Promise')
     setTimeout(() => {
       // 这个setTimeout应该可以去掉，试试phone7plus是否正常
       wx.config({
@@ -54,7 +58,7 @@ async function config(href = location.href) {
         ],
       })
       wx.ready(function() {
-        console.info('config success')
+        console.info('config wx.ready')
         rs()
 
         // cache
@@ -123,7 +127,7 @@ async function onshare(options = {}) {
     imgUrl: document.querySelector('img')?.src,
     ...options,
   }
-  console.log('[share data]', data)
+  console.info('[share data]', data)
 
   wx.onMenuShareTimeline(data)
   wx.onMenuShareAppMessage(data)
@@ -135,6 +139,11 @@ async function onshare(options = {}) {
 $wx.onshare = onshare
 export { $wx, config, onshare }
 export default $wx
+
+/**
+ * @deprecated
+ */
+export { onshare as configShare, onshare as resetShare }
 
 // console
 window.$wx = $wx
