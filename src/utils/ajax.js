@@ -1,6 +1,13 @@
 /**
  * config:
  * ajax.base = 'http://server.com/api/base'
+ *
+ * events:
+ *  global:
+ *    ajax.onload
+ *    ajax.onerror
+ *  instance:
+ *    ajax({onload})
  */
 
 /**
@@ -95,6 +102,7 @@ async function ajax(urlOrOptions, options = {}) {
 
   var url = options.url || urlOrOptions
   url = url.match(/^https?:|^[/][/]/) ? url : `${ajax.base}/${url}` // !(http||//)? +base
+  url = /^[/]{2}/.test(url) ? location.protocol + url : url // // => https?://
   url = url.replace(/([^:/])[/]{2,}/g, '$1/') // /// => /
 
   if (!options.silence) {

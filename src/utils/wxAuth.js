@@ -41,6 +41,8 @@ function getAuthUrl(options = {}) {
 }
 
 /**
+ * @deprecated
+ *
  * A(url) -> B(url+code) -> back => A(url)
  * 返回微信code
  * @param {object|boolean} options true=>{scope:'snsapi_userinfo'}
@@ -121,6 +123,8 @@ async function getCode1(options) {
 }
 
 /**
+ * @deprecated
+ *
  * A(url) -> B(url+code) => B(url)
  */
 function getCode2(options) {
@@ -192,6 +196,7 @@ function getCode3(options) {
     if (/wechatdevtools/i.test(navigator.userAgent)) {
       replaceUrl({ code: undefined, state: undefined })
     }
+    // TODO
     return code
   }
 }
@@ -319,6 +324,11 @@ if (param('code') && session['wx:code:back']) {
 
 export { getAuthUrl, getCode, getOpenId, getUnionId, getUserInfo }
 export default getAuthUrl
+
+/**
+ * @deprecated
+ */
+export { getCode1, getCode2 }
 
 // console
 window.getAuthUrl = getAuthUrl
