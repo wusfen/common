@@ -47,11 +47,19 @@ async function config(href = location.href) {
         debug: param('debug'),
         jsApiList: [
           'closeWindow',
+
           'updateAppMessageShareData',
           'updateTimelineShareData',
           'onMenuShareTimeline',
           'onMenuShareAppMessage',
+
+          'hideOptionMenu',
+          'showOptionMenu',
+          'hideMenuItems',
+          'showMenuItems',
           'hideAllNonBaseMenuItem',
+          'showAllNonBaseMenuItem',
+
           'chooseImage',
           'uploadImage',
           'downloadImage',
